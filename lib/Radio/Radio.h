@@ -28,6 +28,7 @@ class Radio {
     void setStation(int _station);
     std::string getStationName();
     void setPower(bool _power);
+    void setVolume(int _volume);
 
    private:
     bool power = false;
@@ -35,6 +36,7 @@ class Radio {
     int band = 0;
     int station = 0;
     std::string stationName = "";
+    int volume = 0;
 
     void connectToStation();
 

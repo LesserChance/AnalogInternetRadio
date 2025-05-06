@@ -51,10 +51,13 @@ void loop() {
     input.loop();
 
     if (input.switchedPower()) {
-        power = input.getPowerInput();
+        power = input.isPowerOn();
         radio.setPower(power);
         leds.setPower(power);
         oled.setPower(power);
+    }
+    if (input.switchedAlarm() and input.isAlarmOn()) {
+        // start the alarm
     }
 
     if (!power) {
@@ -71,9 +74,10 @@ void loop() {
     leds.setStaticAmt(staticAmt);
     leds.loop();
 
-    // set the new station
+    // set the new station/volume
     radio.setStaticAmt(staticAmt);
     radio.setStation(station);
+    radio.setVolume(input.getVolume());
 
     // draw the station name to the oled
     oled.drawText(radio.getStationName());

@@ -8,14 +8,14 @@ void Radio::setup() {
     initSPIFFS();
 
     audio.setPinout(MAX98357A_I2S_BCLK, MAX98357A_I2S_LRC, MAX98357A_I2S_DOUT);
-    audio.setVolume(100);
     // audio.connecttohost("http://vis.media-ice.musicradio.com/CapitalMP3");
     connectToStation();
 
     noise.setPinout(MAX98357A_I2S_BCLK, MAX98357A_I2S_LRC, MAX98357A_I2S_DOUT);
-    noise.setVolume(10);
     noise.connecttoFS(SPIFFS, "/audio/whitenoise.wav");
     noise.setFileLoop(true);
+
+    setVolume(volume);
 }
 void Radio::initSPIFFS() {
     if (!SPIFFS.begin(true)) {
@@ -43,6 +43,11 @@ void Radio::setStation(int _station) {
         station = _station;
         connectToStation();
     }
+}
+void Radio::setVolume(int _volume) {
+    volume = _volume;
+    audio.setVolume(volume);
+    noise.setVolume(volume / 10);
 }
 void Radio::connectToStation() {
     if (band == BAND_FM) {
